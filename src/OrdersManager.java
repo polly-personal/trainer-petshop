@@ -65,12 +65,15 @@ public class OrdersManager {
 
         for (String nameCust : customersOrders.keySet()) {
             ArrayList<Double> ordersListOfCustomer = customersOrders.get(nameCust); //создали отдельную переменную
-            // для присвоения конкретного клиента конкретной к нему относящейся суммы (Внешний цикл пройдёт по ключам хеш-таблицы, это имена клиентов магазина (типа String))
+            //(переменная ordersListOfCustomer - список
+            // заказов. нужна для присвоения конкретному клиенту суммы относящейся конкретно к нему
+            //  (Внешний цикл пройдёт по ключам
+            // хеш-таблицы, - это имена клиентов магазина (типа String))
 //--------------------sum-------------------------------
             double sum = 0;
 
             for (double order : ordersListOfCustomer) { // Внутренний цикл пройдёт по значениям из списка заказов
-                // КОКРЕТНОГО клиента
+                // КОНКРЕТНОГО клиента
                     sum += order;
                 }
 //--------------------max--------------------------------
@@ -79,31 +82,36 @@ public class OrdersManager {
                 customerName = nameCust;
             }
         }
-
         return customerName;
     }
 
     void removeUnprofitableOrders() {
-        ArrayList<String> names = new ArrayList<>(); // Создайте список клиентов с заказами меньше 5000
+        ArrayList<String> namesCustommerOrderLess5000 = new ArrayList<>(); // Создайте список клиентов с заказами
+        // меньше 5000
+        // создадим новый пустой список, куда соберём «неприбыльных» клиентов.
 
-        // Наполните список names
+        // Затем с помощью двух вложенных циклов for определим суммы заказов по каждому клиенту — так же, как мы сделали в предыдущем методе getMaxOrderCustomerName(),
+        // Наполните список namesCustommerOrderLess5000
         for (String name : customersOrders.keySet()) {
-
+            ArrayList<Double> ordersListOfCustomer2 = customersOrders.get(name);
+//--------------------sum-------------------------------
             double ordersSum = 0;
 
-            for (ArrayList or : customersOrders.values()) {
-                ordersSum += customersOrders.get();
+            for (double order : ordersListOfCustomer2) {
+                ordersSum += order;
             }
-
+            // если у какого-то из клиентов сумма заказов окажется меньше 5000, то мы добавим его в созданный список.
             if (ordersSum < 5000) {
-                //        ...
+                namesCustommerOrderLess5000.add(name);
             }
         }
-    }
 
-        for (...) { // Удалите из хеш-таблицы тех, чьи расходы не превышают 5000
-
-        System.out.println("Клиента " + name + " больше нет в таблице.");
+        // отдельно напишем третий цикл for, которым пройдём по НОВОМУ списку клиентов
+        for (String name : namesCustommerOrderLess5000) { // Удалите из хеш-таблицы тех, чьи расходы не превышают 5000
+            // и уберём из исходной хеш-таблицы тех клиентов, чьи имена совпадают с именами из «неприбыльного» списка:
+                customersOrders.remove(name);
+            System.out.println("Клиента " + name + " больше нет в таблице.");
+        }
     }
 }
-}
+
